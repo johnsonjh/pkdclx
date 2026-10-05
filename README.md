@@ -10,6 +10,10 @@ PKWARE DCL-compatible Extended DCL Implode and DCL Explode
 * Extended 8K/16K/32K ("ImplodeX") support
 * `dclzip` command-line utility included
 
+The PKWARE Data Compression Library Implode algorithm was protected by
+[U.S. Patent No. 5,051,745](https://patents.google.com/patent/US5051745A),
+which expired on August 21, 2010.
+
 ```
 Compress (or decompress) PKWARE DCL Implode (method 10) streams.
 
