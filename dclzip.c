@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: MIT-0
  */
 
-#include "pkdcl.h"
 #include <errno.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "pkdcl.h"
 
 #if defined(_WIN32) || defined(__MSDOS__) || defined(MSDOS)
 # include <fcntl.h>
