@@ -1,5 +1,5 @@
 /*
- * PKDCLX 1.1 - dclzip 1.1
+ * PKDCLX 1.1.1 - dclzip 1.1
  * Copyright (c) 2026 Jeffrey H. Johnson <johnsonjh.dev@gmail.com>
  * SPDX-License-Identifier: MIT-0
  */
@@ -512,6 +512,7 @@ done:
       if (fclose (out) == EOF && status == 0)
         {
           (void)fprintf (stderr, "%s: %s: close error\n",
+          /* cppcheck-suppress incorrectStringBooleanError */
                          TOOL_NAME ? TOOL_NAME : "unknown",
                          outname ? outname : "unknown");
           status = 1;
