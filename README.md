@@ -1,3 +1,4 @@
+<!-- PKDCLX 1.1 -->
 <!-- Copyright (c) 2026 Jeffrey H. Johnson <johnsonjh.dev@gmail.com> -->
 <!-- SPDX-License-Identifier: MIT-0 -->
 # PKDCLX
@@ -29,6 +30,7 @@ Options:
       --16k         16384-byte dictionary (extended)
       --32k         32768-byte dictionary (extended)
       --extra       tighter (but slower) parsing
+      --optimal     true optimal path parsing (slowest)
   -h, --help        display this help
 
 If no filenames(s) specified, data is read from standard input.

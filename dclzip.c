@@ -1,4 +1,5 @@
 /*
+ * PKDCLX 1.1 - dclzip 1.1
  * Copyright (c) 2026 Jeffrey H. Johnson <johnsonjh.dev@gmail.com>
  * SPDX-License-Identifier: MIT-0
  */
@@ -42,6 +43,7 @@ struct options
   unsigned short dict;
   unsigned long xdict;
   int extra;
+  int optimal;
 };
 
 static void
@@ -68,6 +70,7 @@ usage (FILE *fp)
   (void)fputs ("      --16k         16384-byte dictionary (extended)\n", fp);
   (void)fputs ("      --32k         32768-byte dictionary (extended)\n", fp);
   (void)fputs ("      --extra       tighter (but slower) parsing\n", fp);
+  (void)fputs ("      --optimal     optimal (but slowest) parsing\n", fp);
   (void)fputs ("  -h, --help        display this help\n\n", fp);
   (void)fputs (
       "If no filenames(s) specified, data is read from standard input.\n", fp);
@@ -377,7 +380,7 @@ process_one (const char *name, const struct options *opt)
           (void)fprintf (stderr, "%s: cannot construct output name for %s\n",
                          TOOL_NAME, name);
 
-          if (!stdin_input)
+          if (!stdin_input) /* //-V547 */
             {
               (void)fclose (in);
             }
@@ -392,7 +395,7 @@ process_one (const char *name, const struct options *opt)
                          TOOL_NAME, outname);
           free (outname);
 
-          if (!stdin_input)
+          if (!stdin_input) /* //-V547 */
             {
               (void)fclose (in);
             }
@@ -408,7 +411,7 @@ process_one (const char *name, const struct options *opt)
                          strerror (errno));
           free (outname);
 
-          if (!stdin_input)
+          if (!stdin_input) /* //-V547 */
             {
               (void)fclose (in);
             }
@@ -449,10 +452,21 @@ process_one (const char *name, const struct options *opt)
       mode = opt->mode;
       dict = opt->dict;
 
-      if (opt->extra || opt->xdict > 4096UL)
+      if (opt->optimal || opt->extra || opt->xdict > 4096UL)
         {
+          unsigned int flags = 0U;
+
+          if (opt->optimal)
+            {
+              flags = PKDCL_FLAG_OPTIMAL;
+            }
+          else if (opt->extra)
+            {
+              flags = PKDCL_FLAG_EXTRA;
+            }
+
           r = pkdcl_implode_ex (read_cb, write_cb, &ctx, mode, opt->xdict,
-                                opt->extra ? PKDCL_FLAG_EXTRA : 0U);
+                                flags);
         }
       else
         {
@@ -497,13 +511,18 @@ done:
     {
       if (fclose (out) == EOF && status == 0)
         {
-          (void)fprintf (stderr, "%s: %s: close error\n", TOOL_NAME, outname);
+          (void)fprintf (stderr, "%s: %s: close error\n",
+                         TOOL_NAME ? TOOL_NAME : "unknown",
+                         outname ? outname : "unknown");
           status = 1;
         }
 
       if (status != 0)
         {
-          (void)remove (outname);
+          if (outname)
+            {
+              (void)remove (outname);
+            }
         }
     }
 
@@ -574,6 +593,10 @@ long_option (const char *arg, struct options *opt)
   else if (strcmp (arg, "--extra") == 0)
     {
       opt->extra = 1;
+    }
+  else if (strcmp (arg, "--optimal") == 0)
+    {
+      opt->optimal = 1;
     }
   else if (strcmp (arg, "--help") == 0)
     {
