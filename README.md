@@ -12,10 +12,6 @@ PKWARE DCL-compatible Extended DCL Implode and DCL Explode
 * `dclzip` command-line utility included
 
 ```
-Compress (or decompress) PKWARE DCL Implode (method 10) streams.
-
-Usage: dclzip [ option(s) ] [ filenames(s) ]
-
 Options:
   -d, --decompress  decompress (default: compress)
   -c, --stdout      write result to standard output
@@ -30,10 +26,8 @@ Options:
       --16k         16384-byte dictionary (extended)
       --32k         32768-byte dictionary (extended)
       --extra       tighter (but slower) parsing
-      --optimal     true optimal path parsing (slowest)
+      --optimal     optimal (but slowest) parsing
   -h, --help        display this help
-
-If no filenames(s) specified, data is read from standard input.
 ```
 
 ## Legal
