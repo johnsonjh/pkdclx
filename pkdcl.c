@@ -1862,12 +1862,20 @@ x_best (const unsigned char *in, unsigned long n, unsigned long pos,
         unsigned int *bestlen, unsigned long *bestdist)
 {
   unsigned long q;
+  unsigned long remaining;
   unsigned int bl, bcost, seen, maxseen, h;
 
   *bestlen = 0U;
   *bestdist = 0UL;
 
-  if (pos + 1UL >= n)
+  if (pos >= n)
+    {
+      return;
+    }
+
+  remaining = n - pos;
+
+  if (remaining < 2UL)
     {
       return;
     }
@@ -1900,7 +1908,7 @@ x_best (const unsigned char *in, unsigned long n, unsigned long pos,
 
       l = 0U;
 
-      while (l < 518U && (unsigned long)l < n - pos
+      while (l < 518U && (unsigned long)l < remaining
              && in[q + (unsigned long)l] == in[pos + (unsigned long)l])
         {
           l++;
@@ -1999,6 +2007,9 @@ x_optimal_encode (const unsigned char *in, unsigned long n, unsigned short type,
   for (pos = 0UL; pos < n; pos++)
     {
       unsigned long c;
+      unsigned long remaining;
+
+      remaining = n - pos;
 
       if (cost[pos] == ~0UL)
         {
@@ -2017,7 +2028,7 @@ x_optimal_encode (const unsigned char *in, unsigned long n, unsigned short type,
           mlen[pos + 1UL] = 0U;
         }
 
-      if (pos + 1UL < n)
+      if (remaining > 1UL)
         {
           unsigned long q;
           unsigned int seen;
@@ -2047,7 +2058,7 @@ x_optimal_encode (const unsigned char *in, unsigned long n, unsigned short type,
 
               l = 0U;
 
-              while (l < 518U && (unsigned long)l < n - pos
+              while (l < 518U && (unsigned long)l < remaining
                      && in[q + (unsigned long)l] == in[pos + (unsigned long)l])
                 {
                   l++;
