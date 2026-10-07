@@ -3,7 +3,7 @@
 <!-- SPDX-License-Identifier: MIT-0 -->
 # PKDCLX
 
-PKWARE DCL-compatible Extended DCL Implode and DCL Explode
+PKWARE DCL-compatible Extended DCL-Implode and DCL-Explode
 
 ## Overview
 
